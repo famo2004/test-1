@@ -6,7 +6,6 @@ import json
 URL = "https://raw.githubusercontent.com/barry-far/V2ray-config/main/All_Configs_base64_Sub.txt"
 
 def decode_base64(data):
-    """رفع مشکل پدینگ در Base64 و دیکود کردن متن"""
     missing_padding = len(data) % 4
     if missing_padding:
         data += '=' * (4 - missing_padding)
@@ -19,7 +18,7 @@ def main():
         raw_text = response.text.strip()
         decoded_text = decode_base64(raw_text)
     except Exception as e:
-        print(f"Error fetching or decoding data: {e}")
+        print(f"Error fetching data: {e}")
         return
 
     configs = decoded_text.splitlines()
@@ -28,11 +27,10 @@ def main():
 
     for config in configs:
         config = config.strip()
-        # فیلتر اول: فقط کانفیگ‌های Vless
+        
         if not config.startswith("vless://"):
             continue
             
-        # جدا کردن ساختار اصلی کانفیگ از ریمارک
         if '#' in config:
             base_uri = config.split('#', 1)[0]
         else:
@@ -42,9 +40,7 @@ def main():
             parsed_url = urllib.parse.urlparse(base_uri)
             params = urllib.parse.parse_qs(parsed_url.query)
             
-            # فیلتر دوم: بررسی نوع ws
             if params.get('type', [''])[0] == 'ws':
-                # فیلتر سوم: حذف کانفیگ‌های تکراری
                 if base_uri not in unique_base_uris:
                     unique_base_uris.add(base_uri)
                     final_config = f"{base_uri}#FaMo"
