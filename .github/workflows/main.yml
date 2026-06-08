@@ -2,14 +2,14 @@ name: Update FaMo V2Ray Configs
 
 on:
   schedule:
-    - cron: '*/30 * * * *' 
-  workflow_dispatch: 
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
 
 jobs:
   update-configs:
     runs-on: ubuntu-latest
     permissions:
-      contents: write 
+      contents: write
 
     steps:
       - name: Checkout repository
