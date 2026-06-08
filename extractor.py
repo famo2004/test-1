@@ -1,7 +1,6 @@
 import requests
 import base64
 import urllib.parse
-import json
 
 URL = "https://raw.githubusercontent.com/barry-far/V2ray-config/main/All_Configs_base64_Sub.txt"
 
@@ -48,8 +47,10 @@ def main():
         except Exception:
             continue
 
+    # ذخیره به صورت فایل متنی خام بدون هیچ کاراکتر اضافه
     with open('famo_configs.json', 'w', encoding='utf-8') as f:
-        json.dump(final_configs, f, ensure_ascii=False, indent=4)
+        for c in final_configs:
+            f.write(c + '\n')
         
     print(f"Successfully processed {len(final_configs)} unique Vless WS configs.")
 
